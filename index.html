@@ -1,0 +1,68 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>card</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://kit.fontawesome.com/66aa7c98b3.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header>
+    <h2>Actors Profile</h2>
+    <input type="text" id="searchQuery" placeholder="Search here...">
+  </header>
+  <div class="card_wrapper">
+    <!-- data comes from actors api -->
+  </div>
+
+  <script>
+    fetch('https://freetestapi.com/api/v1/actors')
+    .then(resp => resp.json())
+    .then(data => {
+        cardsWrapper = document.querySelector('.card_wrapper')
+        data.forEach(ele => {
+            cardWrapper = document.createElement('div');
+        cardWrapper.classList.add('card');
+        cardWrapper.innerHTML = `
+            <div class="img-bx">
+          <img src="${ele.image}" alt="img" />
+        </div>
+        <div class="content">
+          <div class="detail">
+            <h2>${ele.name}<br /><span>${ele.nationality}</span></h2>
+            <ul>
+                <li>
+                <ul><li><span>Birthday Year</span></li><li>${ele.birth_year}</li></ul></li>
+                <li><ul><li><span>Award</span></li><li>${ele.awards}</il></ul></li>
+                <li><ul><li><span>Famouse Movies</span></li><li>${ele.known_for}</li></ul></li>
+            </ul>
+          </div>
+        </div>
+        `
+        cardsWrapper.appendChild(cardWrapper);
+        })
+    })
+
+
+    // search result 
+
+    searchInput = document.getElementById('searchQuery');
+
+    searchInput.addEventListener('keyup', function(){
+      text = searchInput.value.toLowerCase();
+
+      cardBlocks = document.querySelectorAll('.card_wrapper .card');
+
+      cardBlocks.forEach(cardBlock => {
+        cardText = cardBlock.textContent.toLowerCase();
+
+        cardBlock.style.display = cardText.includes(text) ? 'block' : 'none';
+
+      })
+
+    });
+
+  </script>
+</body>
+</html>
